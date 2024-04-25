@@ -9,9 +9,11 @@ import MainGame from "./MainGame";
 // --- --- --- ---
 // Audio
 // --- --- --- ---
-const readyCook = new Audio("src/assets/sounds/ainsley-ready-steady-cook.mp3");
+const readyCook = new Audio(
+  "./src/assets/sounds/ainsley-ready-steady-cook.mp3"
+);
 const stopCooking = new Audio(
-  "src/assets/sounds/ainsley-stop-cooking-applause.mp3"
+  "./src/assets/sounds/ainsley-stop-cooking-applause.mp3"
 );
 // const yeBoi = new Audio("src/assets/sounds/ainsley-ye-boi.mp3");
 // const redTomatah = new Audio("src/assets/sounds/ainsley-red-tomatah.mp3");
@@ -36,24 +38,24 @@ export default function App() {
       name: "Green Pepper",
       cost: 10,
       increaseValue: 1,
-      imageSource: "src/assets/images/green-pepper.png",
-      audio: new Audio("src/assets/sounds/ainsley-green-pepper.mp3")
+      imageSource: "./src/assets/images/green-pepper.png",
+      audio: new Audio("./src/assets/sounds/ainsley-green-pepper.mp3")
     },
     {
       id: 2,
       name: "Red Tomatah",
       cost: 100,
       increaseValue: 10,
-      imageSource: "src/assets/images/red-tomato.png",
-      audio: new Audio("src/assets/sounds/ainsley-red-tomatah.mp3")
+      imageSource: "./src/assets/images/red-tomato.png",
+      audio: new Audio("./src/assets/sounds/ainsley-red-tomatah.mp3")
     },
     {
       id: 5,
       name: "Extra Ainsley",
       cost: 100,
       increaseValue: "Secret",
-      imageSource: "src/assets/images/ainsley-yeah-boi-cartoon-square.png",
-      audio: new Audio("src/assets/sounds/ainsley-ye-boi.mp3"),
+      imageSource: "./src/assets/images/ainsley-yeah-boi-cartoon-square.png",
+      audio: new Audio("./src/assets/sounds/ainsley-ye-boi.mp3"),
       onclick: addExtraAinsleys
     }
   ];
