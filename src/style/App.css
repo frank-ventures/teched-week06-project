@@ -1,7 +1,8 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  /* max-width: 1280px; */
+  width: 100%;
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
   text-align: center;
 
   display: flex;
@@ -15,7 +16,7 @@
 .red-h1 {
   opacity: 0%;
 
-  padding: 10px;
+  padding: 1em;
   color: tomato;
   border-bottom: 3px solid rgba(255, 99, 71, 0.5);
   background-color: rgba(255, 99, 71, 0.2);
@@ -27,7 +28,7 @@
 .green-h1 {
   opacity: 0%;
 
-  padding: 10px;
+  padding: 1em;
   color: greenyellow;
   border-bottom: 3px solid rgba(172, 255, 47, 0.5);
   background-color: rgba(172, 255, 47, 0.2);
@@ -49,6 +50,7 @@
 
 .gold-button {
   opacity: 0%;
+  padding: 1.5em;
   background-color: gold;
   color: black;
   animation: 1s linear 2.5s 1 slideInFromLeft forwards;
@@ -77,11 +79,18 @@
   border-radius: 50%;
   animation: logo-spin infinite 20s linear;
 }
-
+/* 
 .extra-ainsley-section {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+} */
+
+.upgrade-section ul {
+  display: flex;
+  flex-direction: row;
+
+  list-style: none;
 }
 
 .upgrade-icon {
@@ -107,5 +116,31 @@
 @media (prefers-reduced-motion: no-preference) {
   .big-ainsley-button {
     animation: logo-spin infinite 20s linear;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee img {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(135%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-135%, 0, 0);
   }
 }

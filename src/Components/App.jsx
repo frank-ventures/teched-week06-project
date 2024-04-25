@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "/src/style/App.css";
 import NewGameDisplay from "./NewGameDisplay";
 import MainGame from "./MainGame";
+import UpgradeSection from "./UpgradeSection";
+import ExtraAinsleySection from "./ExtraAinsleySection";
 // import BigAinsleyButton from "./BigAinsleyButton";
 //  We might separate the timer later
 // import Timer from "./Timer";
@@ -9,22 +11,20 @@ import MainGame from "./MainGame";
 // --- --- --- ---
 // Audio
 // --- --- --- ---
-const readyCook = new Audio(
-  "./src/assets/sounds/ainsley-ready-steady-cook.mp3"
-);
+const readyCook = new Audio("/assets/sounds/ainsley-ready-steady-cook.mp3");
 const stopCooking = new Audio(
-  "./src/assets/sounds/ainsley-stop-cooking-applause.mp3"
+  "/assets/sounds/ainsley-stop-cooking-applause.mp3"
 );
-// const yeBoi = new Audio("src/assets/sounds/ainsley-ye-boi.mp3");
-// const redTomatah = new Audio("src/assets/sounds/ainsley-red-tomatah.mp3");
-// const greenPepper = new Audio("src/assets/sounds/ainsley-green-pepper.mp3");
+// const yeBoi = new Audio /assets/sounds/ainsley-ye-boi.mp3");
+// const redTomatah = new Audio /assets/sounds/ainsley-red-tomatah.mp3");
+// const greenPepper = new Audio /assets/sounds/ainsley-green-pepper.mp3");
 
 export default function App() {
   // --- --- --- ---
   // Main Variables
   // --- --- --- ---
   // harriotsNumber is our main 'Total Cookies'
-  const [harriotsNumber, setHarriotsNumber] = useState(100);
+  const [harriotsNumber, setHarriotsNumber] = useState(0);
   //  harriotsPerSecond the number of Harriots the user gets per second
   const [harriotsPerSecond, setHarriotsPerSecond] = useState(1);
   const [extraAinsleys, setExtraAinsleys] = useState([]);
@@ -38,25 +38,26 @@ export default function App() {
       name: "Green Pepper",
       cost: 10,
       increaseValue: 1,
-      imageSource: "./src/assets/images/green-pepper.png",
-      audio: new Audio("./src/assets/sounds/ainsley-green-pepper.mp3")
+      imageSource: "/assets/images/green-pepper.png",
+      audio: new Audio("/assets/sounds/ainsley-green-pepper.mp3")
     },
     {
       id: 2,
       name: "Red Tomatah",
       cost: 100,
       increaseValue: 10,
-      imageSource: "./src/assets/images/red-tomato.png",
-      audio: new Audio("./src/assets/sounds/ainsley-red-tomatah.mp3")
+      imageSource: "/assets/images/red-tomato.png",
+      audio: new Audio("/assets/sounds/ainsley-red-tomatah.mp3")
     },
     {
       id: 5,
       name: "Extra Ainsley",
       cost: 100,
       increaseValue: "Secret",
-      imageSource: "./src/assets/images/ainsley-yeah-boi-cartoon-square.png",
-      audio: new Audio("./src/assets/sounds/ainsley-ye-boi.mp3"),
-      onclick: addExtraAinsleys
+      imageSource: "/assets/images/ainsley-yeah-boi-cartoon-square.png",
+      audio: new Audio("/assets/sounds/ainsley-ye-boi.mp3"),
+      onclick: addExtraAinsleys,
+      argument: "audio"
     }
   ];
 
@@ -89,7 +90,7 @@ export default function App() {
   // --- --- --- ---
   function increaseAinsleys() {
     setHarriotsNumber((currentCount) => {
-      return currentCount + 1;
+      return currentCount + 10;
     });
   }
   // --- --- --- ---
@@ -113,19 +114,24 @@ export default function App() {
   function handleShowMainGame() {
     showMainGame
       ? (stopCooking.play(), setHarriotsNumber(harriotsNumber))
-      : (readyCook.play(), setHarriotsNumber(0), setHarriotsPerSecond(0));
+      : (readyCook.play(),
+        setHarriotsNumber(0),
+        setHarriotsPerSecond(0),
+        setExtraAinsleys([]));
     setShowMainGame(!showMainGame);
   }
 
   function addExtraAinsleys() {
     // If the user can afford the cosmetic, spinning Ainsley Disc:
-    if (harriotsNumber > 100) {
+    if (harriotsNumber > 99) {
+      const yeBoi = new Audio("/assets/sounds/ainsley-ye-boi.mp3");
+      yeBoi.play();
       // Take some Harriots as cost:
       setHarriotsNumber((currentHarriots) => currentHarriots - 100);
       // And add another image source to the array. Bit yucky but it works
       setExtraAinsleys([
         ...extraAinsleys,
-        "src/assets/images/ainsley-yeah-boi-cartoon-square.png"
+        "/assets/images/ainsley-yeah-boi-cartoon-square.png"
       ]);
     }
   }
@@ -139,16 +145,11 @@ export default function App() {
         <NewGameDisplay onClick={handleShowMainGame} />
       ) : (
         <>
-          <div className="extra-ainsley-section">
-            {extraAinsleys.map((ainsley, index) => {
-              return (
-                <img className="small-ainsley" key={index} src={ainsley} />
-              );
-            })}
-          </div>
+          <ExtraAinsleySection extraAinsleys={extraAinsleys} />
+
           <audio
             id="gorillaz-player"
-            src="src/assets/sounds/gorillaz-192000.mp3"
+            src="/assets/sounds/gorillaz-192000.mp3"
             controls
             loop
           ></audio>
@@ -159,53 +160,10 @@ export default function App() {
             increaseAinsleys={increaseAinsleys}
             onClick={handleShowMainGame}
           />
-
+          <UpgradeSection upgrades={upgrades} increaseHPS={increaseHPS} />
           <p>Upgrade Per Second : {harriotsPerSecond}</p>
           <ListComponent />
           {/* put your upgrade buttons in their own component */}
-          <ul>
-            {upgrades.map((upgrade) => {
-              console.log(upgrade);
-              return (
-                <li key={upgrade.name + upgrade.id}>
-                  <img
-                    src={upgrade.imageSource}
-                    className="upgrade-icon"
-                    onClick={
-                      upgrade.onclick
-                        ? upgrade.onclick
-                        : () =>
-                            increaseHPS(
-                              `${upgrade.name}`,
-                              upgrade.cost,
-                              upgrade.increaseValue,
-                              upgrade.audio
-                            )
-                    }
-                  />
-                  {upgrade.name}, Costs: {upgrade.cost} Gets you:{" "}
-                  {upgrade.increaseValue}
-                </li>
-              );
-            })}
-          </ul>
-          {/* 
-          <img
-            src="src/assets/images/ainsley-yeah-boi-cartoon-square.png"
-            onClick={addExtraAinsleys}
-          /> */}
-
-          {/* <img
-            onClick={() => increaseHPS("red", 10)}
-            className="upgrade-icon"
-            src="src/assets/images/red-tomato.png"
-          />
-
-          <img
-            onClick={() => increaseHPS("green", 10)}
-            className="upgrade-icon"
-            src="src/assets/images/green-pepper.png"
-          /> */}
         </>
       )}
     </>
