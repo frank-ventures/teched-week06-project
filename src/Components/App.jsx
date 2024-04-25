@@ -22,7 +22,7 @@ export default function App() {
   // Main Variables
   // --- --- --- ---
   // harriotsNumber is our main 'Total Cookies'
-  const [harriotsNumber, setHarriotsNumber] = useState(0);
+  const [harriotsNumber, setHarriotsNumber] = useState(100);
   //  harriotsPerSecond the number of Harriots the user gets per second
   const [harriotsPerSecond, setHarriotsPerSecond] = useState(1);
   const [extraAinsleys, setExtraAinsleys] = useState([]);
@@ -46,21 +46,32 @@ export default function App() {
       increaseValue: 10,
       imageSource: "src/assets/images/red-tomato.png",
       audio: new Audio("src/assets/sounds/ainsley-red-tomatah.mp3")
+    },
+    {
+      id: 5,
+      name: "Extra Ainsley",
+      cost: 100,
+      increaseValue: "Secret",
+      imageSource: "src/assets/images/ainsley-yeah-boi-cartoon-square.png",
+      audio: new Audio("src/assets/sounds/ainsley-ye-boi.mp3"),
+      onclick: addExtraAinsleys
     }
   ];
 
   // --- --- --- ---
   // This timer happens every second, and adds the 'harriotsPerSecond' to the 'harriotsNumber'.
   // --- --- --- ---
+
   useEffect(() => {
     console.log("effect has been called");
     // setHarriotsNumber((currentHarriots) => currentHarriots + harriotsPerSecond);
     console.log("TimerClean component useEffect callback");
     const interval = setInterval(() => {
-      console.log("interval has been called");
+      // console.log("interval has been called");
       setHarriotsNumber(
         (currentHarriots) => currentHarriots + harriotsPerSecond
       );
+      // console.log(harriotsPerSecond);
     }, 1000);
 
     return () => {
@@ -68,6 +79,7 @@ export default function App() {
       clearInterval(interval);
     };
   }, [harriotsPerSecond]);
+
   // -- Timer ends here --
 
   // --- --- --- ---
@@ -104,8 +116,11 @@ export default function App() {
   }
 
   function addExtraAinsleys() {
+    // If the user can afford the cosmetic, spinning Ainsley Disc:
     if (harriotsNumber > 100) {
+      // Take some Harriots as cost:
       setHarriotsNumber((currentHarriots) => currentHarriots - 100);
+      // And add another image source to the array. Bit yucky but it works
       setExtraAinsleys([
         ...extraAinsleys,
         "src/assets/images/ainsley-yeah-boi-cartoon-square.png"
@@ -123,7 +138,6 @@ export default function App() {
       ) : (
         <>
           <div className="extra-ainsley-section">
-            {console.log(extraAinsleys)}
             {extraAinsleys.map((ainsley, index) => {
               return (
                 <img className="small-ainsley" key={index} src={ainsley} />
@@ -149,30 +163,35 @@ export default function App() {
           {/* put your upgrade buttons in their own component */}
           <ul>
             {upgrades.map((upgrade) => {
+              console.log(upgrade);
               return (
                 <li key={upgrade.name + upgrade.id}>
                   <img
                     src={upgrade.imageSource}
                     className="upgrade-icon"
-                    onClick={() =>
-                      increaseHPS(
-                        `${upgrade.name}`,
-                        upgrade.cost,
-                        upgrade.increaseValue,
-                        upgrade.audio
-                      )
+                    onClick={
+                      upgrade.onclick
+                        ? upgrade.onclick
+                        : () =>
+                            increaseHPS(
+                              `${upgrade.name}`,
+                              upgrade.cost,
+                              upgrade.increaseValue,
+                              upgrade.audio
+                            )
                     }
                   />
-                  {upgrade.name}, Costs: {upgrade.cost} Gets you: {upgrade.cost}
+                  {upgrade.name}, Costs: {upgrade.cost} Gets you:{" "}
+                  {upgrade.increaseValue}
                 </li>
               );
             })}
           </ul>
-
+          {/* 
           <img
             src="src/assets/images/ainsley-yeah-boi-cartoon-square.png"
             onClick={addExtraAinsleys}
-          />
+          /> */}
 
           {/* <img
             onClick={() => increaseHPS("red", 10)}

@@ -60,9 +60,11 @@ However, the 'useEffect' which holds the interval depends on the harriotsPerSeco
 
 This means that if a user rapidly clicked an upgrade button, the 'Total Harriots' count would stall.
 
-I fixed this once I understood that the above was happening, and added a 'setHarriotsNumber' function at the start of the useEffect, before the interval is set:
+I thought that a fix would be to add some code before the interval is set:
 
 `setHarriotsNumber((currentHarriots) => currentHarriots + harriotsPerSecond);`
+
+However this just introduces a new bug where a user can rapidly click an update button and get cookies in a faster way! Game breaking!
 
 **Difficulty 2**
 
