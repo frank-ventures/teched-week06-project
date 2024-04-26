@@ -91,5 +91,8 @@ Slide from left animations - https://stackoverflow.com/questions/6805482/css3-tr
 Put your image/audio assets in your public folder for deployment - https://stackoverflow.com/questions/74912353/i-just-deployed-my-vite-react-site-but-my-icons-images-arent-deployed
 
 Create a 'scroll effect' (for the extra Ainsleys to scroll across the page) - https://stackoverflow.com/questions/45847392/pure-css-continuous-horizontal-text-scroll-without-break
+and https://blog.hubspot.com/website/scrolling-text-css
+
+Overlay for the scrolling Ainsleys - https://www.w3schools.com/howto/howto_css_overlay.asp
 
 Sound Effects - Beautiful Ainsley Harriott!

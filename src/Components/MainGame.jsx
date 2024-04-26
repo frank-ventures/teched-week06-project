@@ -4,8 +4,7 @@ import MainCounter from "./Counter";
 export default function MainGame({
   harriotsNumber,
   harriotsPerSecond,
-  increaseAinsleys,
-  onClick
+  increaseAinsleys
 }) {
   return (
     <>
@@ -15,8 +14,6 @@ export default function MainGame({
         harriotsPerSecond={harriotsPerSecond}
       />
       <BigAinsleyButton increaseAinsleys={increaseAinsleys} />
-
-      <button onClick={onClick}>Reset your game</button>
     </>
   );
 }

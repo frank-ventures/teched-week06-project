@@ -119,28 +119,73 @@
   }
 }
 
+/* --- --- --- --- */
+/* For the Extra Ainsleys Scroll Effect */
+/* --- --- --- --- */
+.overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(
+    104,
+    104,
+    104,
+    0.3
+  ); /* Black background with opacity */
+  z-index: -500; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
 .wrapper {
-  width: 100%;
+  position: absolute;
+  z-index: -1000;
+  top: 25%;
+
+  width: 100vw;
   overflow: hidden;
 }
 
 .marquee {
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  animation: marquee 20s linear infinite;
-}
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
 
-.marquee img {
-  display: inline-block;
+  -moz-animation: my-animation 15s linear infinite;
+  -webkit-animation: my-animation 15s linear infinite;
+  animation: my-animation 15s linear infinite;
 }
-
-@keyframes marquee {
-  0% {
-    transform: translate3d(135%, 0, 0);
+@-moz-keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
   }
-  100% {
-    transform: translate3d(-135%, 0, 0);
+  to {
+    -moz-transform: translateX(-100%);
+  }
+}
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from {
+    -webkit-transform: translateX(100%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }

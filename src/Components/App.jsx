@@ -37,6 +37,7 @@ export default function App() {
     harriotsPerSecond: 0,
     greenPeppers: 0,
     redTomatahs: 0,
+    palletKnives: 0,
     extraAinsleys: 0
   });
 
@@ -60,11 +61,20 @@ export default function App() {
       audio: new Audio("/assets/sounds/ainsley-red-tomatah.mp3")
     },
     {
+      id: 3,
+      name: "Pallet Knife",
+      upgradeName: "palletKnives",
+      cost: 300,
+      increaseValue: 10,
+      imageSource: "/assets/images/pallet-knife.png",
+      audio: new Audio("/assets/sounds/ainsley-pallet-knife-nice-and-hot.mp3")
+    },
+    {
       id: 5,
       name: "Extra Ainsley",
       upgradeName: "extraAinsleys",
       cost: 100,
-      increaseValue: "Secret",
+      increaseValue: "Another Spinning Ainsley",
       imageSource: "/assets/images/ainsley-yeah-boi-cartoon-square.png",
       audio: new Audio("/assets/sounds/ainsley-ye-boi.mp3"),
       onclick: addExtraAinsleys,
@@ -171,10 +181,11 @@ export default function App() {
   // --- --- --- ---
   return (
     <>
+      <div className="overlay"></div>
       {!showMainGame ? (
         <NewGameDisplay onClick={handleShowMainGame} />
       ) : (
-        <>
+        <div className="main-app">
           <ExtraAinsleySection extraAinsleys={extraAinsleys} />
 
           <audio
@@ -183,12 +194,11 @@ export default function App() {
             controls
             loop
           ></audio>
-          <p> Play some phat beats but turn it down</p>
+          <p> Play some phat beats.</p>
           <MainGame
             harriotsNumber={harriotsNumber}
             harriotsPerSecond={harriotsPerSecond}
             increaseAinsleys={increaseAinsleys}
-            onClick={handleShowMainGame}
           />
           <UpgradeSection
             userStats={userStats}
@@ -197,8 +207,9 @@ export default function App() {
           />
           <p>Upgrade Per Second : {harriotsPerSecond}</p>
           <ListComponent />
-          {/* put your upgrade buttons in their own component */}
-        </>
+          <button onClick={handleShowMainGame}>Reset your game</button>
+          <footer>Frankie, Github, AInsley and stuff</footer>
+        </div>
       )}
     </>
   );
