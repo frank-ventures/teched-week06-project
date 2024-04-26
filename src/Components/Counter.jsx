@@ -1,7 +1,9 @@
 export default function MainCounter({ harriotsNumber }) {
   return (
     <>
-      <p>{harriotsNumber} Harriots</p>
+      <p>
+        <span className="harriots-number">{harriotsNumber}</span> Ħarriots
+      </p>
     </>
   );
 }

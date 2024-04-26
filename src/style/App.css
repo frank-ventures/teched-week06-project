@@ -1,6 +1,6 @@
 #root {
-  /* max-width: 1280px; */
   width: 100%;
+  padding: 1em;
   /* margin: 0 auto; */
   /* padding: 2rem; */
   text-align: center;
@@ -11,6 +11,30 @@
   align-items: center;
 
   gap: 10px;
+
+  background-color: hsla(0, 0%, 12.5%, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- --- --- --- */
+/* Utility */
+/* --- --- --- --- */
+.flex {
+  display: flex;
+}
+
+/* --- --- --- --- */
+/* Intro Page */
+/* --- --- --- --- */
+.new-game-display {
+  flex-direction: column;
+  gap: 3em;
+  width: 90%;
 }
 
 .red-h1 {
@@ -37,17 +61,6 @@
   animation: 1s linear 1.5s 1 slideInFromLeft forwards;
 }
 
-@keyframes slideInFromLeft {
-  0% {
-    opacity: 0%;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 100%;
-    transform: translateX(0);
-  }
-}
-
 .gold-button {
   opacity: 0%;
   padding: 1.5em;
@@ -59,49 +72,149 @@
   box-shadow: 1px 1px 0px 1px black, 0px 0px 10px 10px #b46000;
 }
 
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0%;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+}
+
+/* --- --- --- --- */
+/* Main Game */
+/* --- --- --- --- */
+
+.main-app {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 95%;
+  gap: 0.5em;
+}
+
+.audio-section {
+  margin-bottom: 1em;
+  font-style: italic;
+}
+
+.main-app h1 {
+  color: hsl(0, 50%, 0%);
+  text-shadow: 2px 1px 10px white;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2), 1px 0 5px white;
+  background-image: url("public/assets/images/Ready-Steady-Cook-banner.jpg");
+
+  background-size: contain;
+  height: 1.5em;
+  width: 100%;
+  font-size: 2.5em;
+  padding: 0.2em;
+}
+
+.harriots-number {
+  font-weight: 800;
+}
+
 .big-ainsley-button {
-  height: 20em;
+  height: 15em;
   margin: 30px;
   background-color: tomato;
   border-radius: 50%;
-  transition: all 0.5s;
+  transition: all 0.05s;
   animation: logo-spin infinite 20s linear;
 }
 
 .big-ainsley-button:hover {
   background-color: lightblue;
-  box-shadow: 0px 5px 50px darkcyan;
+  box-shadow: 0px 5px 20px darkcyan;
+}
+
+.big-ainsley-button:active {
+  background-color: orange;
+  box-shadow: 0px 5px 60px orangered;
 }
 
 .small-ainsley {
-  height: 5em;
+  height: 3em;
   background-color: tomato;
   border-radius: 50%;
   animation: logo-spin infinite 20s linear;
 }
-/* 
-.extra-ainsley-section {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-} */
+
+.upgrade-section h3 {
+  font-size: 1.5em;
+  font-weight: 400;
+  font-style: italic;
+}
 
 .upgrade-section ul {
-  display: flex;
+  margin-left: 20%;
+  width: 60%;
+
   flex-direction: row;
+  gap: 1em;
 
   list-style: none;
+  overflow: scroll;
+
+  background-color: hsla(0, 0%, 12.5%, 0.2);
+  border-radius: 1em;
+  border: 3px solid tomato;
+}
+
+.upgrade-section li {
+  font-size: 1.1em;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.25em;
+
+  min-width: 10em;
+  margin: 10px;
+  background-color: hsla(0, 0%, 75%, 0.5);
+  border-radius: 1em;
+}
+
+.upgrade-details-box {
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.upgrade-title {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.individual-detail-row {
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .upgrade-icon {
   height: 5em;
+  width: 5em;
   cursor: pointer;
-  padding: 10px;
+  padding: 0.1em;
+  border-radius: 1em;
+}
+
+.upgrade-content {
+  text-align: right;
 }
 
 .upgrade-icon:hover {
-  background-color: #b46000;
-  border-radius: 25%;
+  background-color: lightblue;
+  box-shadow: 0px 5px 20px darkcyan;
+}
+
+.upgrade-icon:active {
+  background-color: orange;
+  box-shadow: 0px 5px 60px orangered;
 }
 
 @keyframes logo-spin {
@@ -119,28 +232,73 @@
   }
 }
 
+/* --- --- --- --- */
+/* For the Extra Ainsleys Scroll Effect */
+/* --- --- --- --- */
+.overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(
+    104,
+    104,
+    104,
+    0.3
+  ); /* Black background with opacity */
+  z-index: -500; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
 .wrapper {
-  width: 100%;
+  position: absolute;
+  z-index: -1000;
+  top: 25%;
+
+  width: 100vw;
   overflow: hidden;
 }
 
 .marquee {
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  animation: marquee 20s linear infinite;
-}
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
 
-.marquee img {
-  display: inline-block;
+  -moz-animation: my-animation 15s linear infinite;
+  -webkit-animation: my-animation 15s linear infinite;
+  animation: my-animation 15s linear infinite;
 }
-
-@keyframes marquee {
-  0% {
-    transform: translate3d(135%, 0, 0);
+@-moz-keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
   }
-  100% {
-    transform: translate3d(-135%, 0, 0);
+  to {
+    -moz-transform: translateX(-100%);
+  }
+}
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from {
+    -webkit-transform: translateX(100%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
