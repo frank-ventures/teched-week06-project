@@ -185,40 +185,39 @@ export default function App() {
       {!showMainGame ? (
         <NewGameDisplay onClick={handleShowMainGame} />
       ) : (
-        <div className="main-app">
+        <div className="main-app flex">
           <ExtraAinsleySection extraAinsleys={extraAinsleys} />
-
-          <audio
-            id="gorillaz-player"
-            src="/assets/sounds/gorillaz-192000-volume.mp3"
-            controls
-            loop
-          ></audio>
-          <p> Play some phat beats.</p>
+          <div className="audio-section">
+            <audio
+              id="gorillaz-player"
+              src="/assets/sounds/gorillaz-192000-volume.mp3"
+              controls
+              loop
+            ></audio>
+            <p> Play some phat beats.</p>
+          </div>
           <MainGame
             harriotsNumber={harriotsNumber}
             harriotsPerSecond={harriotsPerSecond}
             increaseAinsleys={increaseAinsleys}
           />
+          <p>Ħarriots Per Second : {harriotsPerSecond}</p>
+
           <UpgradeSection
-            userStats={userStats}
             upgrades={upgrades}
             increaseHPS={increaseHPS}
+            userStats={userStats}
           />
-          <p>Upgrade Per Second : {harriotsPerSecond}</p>
-          <ListComponent />
           <button onClick={handleShowMainGame}>Reset your game</button>
-          <footer>Frankie, Github, AInsley and stuff</footer>
+          <footer>
+            <a href="https://www.linkedin.com/in/frankie-shrieves/">Frankie</a>,{" "}
+            <a href="https://github.com/frank-ventures/teched-week06-project">
+              Github
+            </a>
+            , Ainsley and stuff
+          </footer>
         </div>
       )}
     </>
-  );
-}
-
-function ListComponent(props) {
-  return (
-    <div>
-      <h1>{props.text}</h1>
-    </div>
   );
 }
