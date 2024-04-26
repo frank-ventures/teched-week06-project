@@ -1,6 +1,7 @@
 export default function UpgradeSection({ upgrades, increaseHPS }) {
   return (
     <section className="upgrade-section">
+      <h3>Give it a stir...</h3>
       <ul>
         {upgrades.map((upgrade) => {
           return (
@@ -16,12 +17,13 @@ export default function UpgradeSection({ upgrades, increaseHPS }) {
                           `${upgrade.name}`,
                           upgrade.cost,
                           upgrade.increaseValue,
-                          upgrade.audio
+                          upgrade.audio,
+                          upgrade.upgradeName
                         )
                 }
               />
               {upgrade.name}, Costs: {upgrade.cost} Gets you:{" "}
-              {upgrade.increaseValue}
+              {upgrade.increaseValue}, You have {upgrade.userHas}
             </li>
           );
         })}

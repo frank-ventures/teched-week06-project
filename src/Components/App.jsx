@@ -32,10 +32,19 @@ export default function App() {
   // --- --- --- ---
   // Upgrades
   // --- --- --- ---
+  const [userStats, setUserStats] = useState({
+    harriotsNumber: 0,
+    harriotsPerSecond: 0,
+    greenPeppers: 0,
+    redTomatahs: 0,
+    extraAinsleys: 0
+  });
+
   const upgrades = [
     {
       id: 1,
       name: "Green Pepper",
+      upgradeName: "greenPeppers",
       cost: 10,
       increaseValue: 1,
       imageSource: "/assets/images/green-pepper.png",
@@ -44,6 +53,7 @@ export default function App() {
     {
       id: 2,
       name: "Red Tomatah",
+      upgradeName: "redTomatahs",
       cost: 100,
       increaseValue: 10,
       imageSource: "/assets/images/red-tomato.png",
@@ -52,6 +62,7 @@ export default function App() {
     {
       id: 5,
       name: "Extra Ainsley",
+      upgradeName: "extraAinsleys",
       cost: 100,
       increaseValue: "Secret",
       imageSource: "/assets/images/ainsley-yeah-boi-cartoon-square.png",
@@ -66,22 +77,23 @@ export default function App() {
   // --- --- --- ---
 
   useEffect(() => {
-    console.log("effect has been called");
+    // console.log("effect has been called");
     // setHarriotsNumber((currentHarriots) => currentHarriots + harriotsPerSecond);
-    console.log("TimerClean component useEffect callback");
+    // console.log("TimerClean component useEffect callback");
     const interval = setInterval(() => {
       // console.log("interval has been called");
       setHarriotsNumber(
         (currentHarriots) => currentHarriots + harriotsPerSecond
       );
+      updateUserStorage();
       // console.log(harriotsPerSecond);
     }, 1000);
 
     return () => {
-      console.log("TimerClean component useEffect cleanup");
+      // console.log("TimerClean component useEffect cleanup");
       clearInterval(interval);
     };
-  }, [harriotsPerSecond]);
+  }, [harriotsPerSecond, updateUserStorage]);
 
   // -- Timer ends here --
 
@@ -94,12 +106,17 @@ export default function App() {
     });
   }
   // --- --- --- ---
-  // Main Upgrade function. Takes the numbers passed in from the button.
+  // Main Upgrade function. Takes the numbers passed in from the button. Also updates the userStats
   // --- --- --- ---
-  function increaseHPS(string, upgradeCost, upgradeValue, audio) {
+  function increaseHPS(string, upgradeCost, upgradeValue, audio, upgradeName) {
     console.log(string, upgradeCost, upgradeValue);
+    console.log(upgradeName);
 
     if (harriotsNumber > upgradeCost - 1) {
+      setUserStats((prevUserStats) => ({
+        ...prevUserStats,
+        [upgradeName]: prevUserStats[upgradeName] + 1
+      }));
       setHarriotsNumber((currentNumber) => currentNumber - upgradeCost);
       setHarriotsPerSecond(harriotsPerSecond + upgradeValue);
       audio.play();
@@ -121,6 +138,9 @@ export default function App() {
     setShowMainGame(!showMainGame);
   }
 
+  // --- --- --- ---
+  //   This puts extra small spinning Ainsleys into an array, to be displayed on the page.
+  // --- --- --- ---
   function addExtraAinsleys() {
     // If the user can afford the cosmetic, spinning Ainsley Disc:
     if (harriotsNumber > 99) {
@@ -133,7 +153,17 @@ export default function App() {
         ...extraAinsleys,
         "/assets/images/ainsley-yeah-boi-cartoon-square.png"
       ]);
+      setUserStats((prevUserStats) => ({
+        ...prevUserStats,
+        extraAinsleys: prevUserStats.extraAinsleys + 1
+      }));
     }
+  }
+
+  function updateUserStorage() {
+    userStats.harriotsNumber = harriotsNumber;
+    userStats.harriotsPerSecond = harriotsPerSecond;
+    localStorage.setItem("userStats", JSON.stringify(userStats));
   }
 
   // --- --- --- ---
@@ -149,7 +179,7 @@ export default function App() {
 
           <audio
             id="gorillaz-player"
-            src="/assets/sounds/gorillaz-192000.mp3"
+            src="/assets/sounds/gorillaz-192000-volume.mp3"
             controls
             loop
           ></audio>
@@ -160,7 +190,11 @@ export default function App() {
             increaseAinsleys={increaseAinsleys}
             onClick={handleShowMainGame}
           />
-          <UpgradeSection upgrades={upgrades} increaseHPS={increaseHPS} />
+          <UpgradeSection
+            userStats={userStats}
+            upgrades={upgrades}
+            increaseHPS={increaseHPS}
+          />
           <p>Upgrade Per Second : {harriotsPerSecond}</p>
           <ListComponent />
           {/* put your upgrade buttons in their own component */}

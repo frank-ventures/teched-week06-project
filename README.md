@@ -88,4 +88,8 @@ Tool to cut MP3s - https://clideo.com/cut-audio
 
 Slide from left animations - https://stackoverflow.com/questions/6805482/css3-transition-animation-on-load
 
+Put your image/audio assets in your public folder for deployment - https://stackoverflow.com/questions/74912353/i-just-deployed-my-vite-react-site-but-my-icons-images-arent-deployed
+
+Create a 'scroll effect' (for the extra Ainsleys to scroll across the page) - https://stackoverflow.com/questions/45847392/pure-css-continuous-horizontal-text-scroll-without-break
+
 Sound Effects - Beautiful Ainsley Harriott!
