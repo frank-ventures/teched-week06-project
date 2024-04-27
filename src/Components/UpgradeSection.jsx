@@ -7,43 +7,43 @@ export default function UpgradeSection({ upgrades, increaseHPS, userStats }) {
       <ul className="flex">
         {upgrades.map((upgrade) => {
           return (
-            <li key={upgrade.name + upgrade.id}>
-              <img
-                src={upgrade.imageSource}
-                className="upgrade-icon"
-                onClick={
-                  upgrade.onclick
-                    ? upgrade.onclick
-                    : () =>
-                        increaseHPS(
-                          `${upgrade.name}`,
-                          upgrade.cost,
-                          upgrade.increaseValue,
-                          upgrade.audio,
-                          upgrade.upgradeName
-                        )
-                }
-              />
+            <li
+              className="flex"
+              key={upgrade.name + upgrade.id}
+              onClick={
+                upgrade.onclick
+                  ? upgrade.onclick
+                  : () =>
+                      increaseHPS(
+                        `${upgrade.name}`,
+                        upgrade.cost,
+                        upgrade.increaseValue,
+                        upgrade.audio,
+                        upgrade.upgradeName
+                      )
+              }
+            >
+              <img src={upgrade.imageSource} className="upgrade-icon" />
               <p className="upgrade-title">{upgrade.name}</p>
 
               <div className="upgrade-details-box flex">
                 <UpgradeDetail
                   content={upgrade.cost}
                   description={"Costs: "}
-                  className="upgrade-cost"
-                  suffix="Ħ"
+                  className="upgrade-left"
+                  suffix=" Ħ"
                 />
                 <UpgradeDetail
                   content={upgrade.increaseValue}
                   description={"Gets: "}
-                  className="upgrade-cost"
+                  className="upgrade-left"
                   upgradeName={upgrade.upgradeName}
                   suffix=" Ħps"
                 />
                 <UpgradeDetail
                   content={userStats[upgrade.upgradeName]}
                   description={"You have: "}
-                  className="upgrade-cost"
+                  className="upgrade-left"
                   suffix=""
                 />
                 {/* <p className="upgrade-cost">Costs: </p> <p>Ħ{upgrade.cost}</p>

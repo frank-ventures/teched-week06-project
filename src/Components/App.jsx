@@ -38,6 +38,7 @@ export default function App() {
     greenPeppers: 0,
     redTomatahs: 0,
     palletKnives: 0,
+    quickieBag: 0,
     extraAinsleys: 0,
     hasFiveHarriots: false
   });
@@ -65,10 +66,19 @@ export default function App() {
       id: 3,
       name: "Pallet Knife",
       upgradeName: "palletKnives",
-      cost: 500,
-      increaseValue: 50,
+      cost: 100,
+      increaseValue: 10,
       imageSource: "/assets/images/pallet-knife.png",
       audio: new Audio("/assets/sounds/ainsley-pallet-knife-nice-and-hot.mp3")
+    },
+    {
+      id: 4,
+      name: "Quickie Bag",
+      upgradeName: "quickieBag",
+      cost: 500,
+      increaseValue: 50,
+      imageSource: "/assets/images/quickie-bag.png",
+      audio: new Audio("/assets/sounds/ainsley-quickie-bag.mp3")
     },
     {
       id: 5,
@@ -97,6 +107,7 @@ export default function App() {
         (currentHarriots) => currentHarriots + harriotsPerSecond
       );
       updateUserStorage();
+
       // console.log(harriotsPerSecond);
     }, 1000);
 
@@ -177,6 +188,10 @@ export default function App() {
   }
 
   function updateUserStorage() {
+    const beautiful = new Audio("/assets/sounds/ainsley-thats-beautiful.mp3");
+    if (harriotsNumber > 30 && harriotsNumber % 150 === 0) {
+      beautiful.play();
+    }
     userStats.harriotsNumber = harriotsNumber;
     userStats.harriotsPerSecond = harriotsPerSecond;
     localStorage.setItem("userStats", JSON.stringify(userStats));
@@ -222,9 +237,12 @@ export default function App() {
           ) : (
             <>
               <h2 className="click-his-face">Click his face</h2>
+              <p>...and play some tunes at the top.</p>
             </>
           )}
-          <button onClick={handleShowMainGame}>Reset your game</button>
+          <button className="reset-button" onClick={handleShowMainGame}>
+            Reset your game
+          </button>
           <footer>
             <a href="https://www.linkedin.com/in/frankie-shrieves/">Frankie</a>,{" "}
             <a href="https://github.com/frank-ventures/teched-week06-project">
