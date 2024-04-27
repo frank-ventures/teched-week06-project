@@ -1,12 +1,12 @@
+// --- --- --- ---
+// Imports
+// --- --- --- ---
 import { useState, useEffect } from "react";
 import "/src/style/App.css";
 import NewGameDisplay from "./NewGameDisplay";
 import MainGame from "./MainGame";
 import UpgradeSection from "./UpgradeSection";
 import ExtraAinsleySection from "./ExtraAinsleySection";
-// import BigAinsleyButton from "./BigAinsleyButton";
-//  We might separate the timer later
-// import Timer from "./Timer";
 
 // --- --- --- ---
 // Audio
@@ -15,34 +15,55 @@ const readyCook = new Audio("/assets/sounds/ainsley-ready-steady-cook.mp3");
 const stopCooking = new Audio(
   "/assets/sounds/ainsley-stop-cooking-applause.mp3"
 );
-// const yeBoi = new Audio /assets/sounds/ainsley-ye-boi.mp3");
-// const redTomatah = new Audio /assets/sounds/ainsley-red-tomatah.mp3");
-// const greenPepper = new Audio /assets/sounds/ainsley-green-pepper.mp3");
+const beautiful = new Audio("/assets/sounds/ainsley-thats-beautiful.mp3");
+const yeBoi = new Audio("/assets/sounds/ainsley-ye-boi.mp3");
 
 export default function App() {
+  // --- --- --- ---
+  // User Stats
+  // Initialise a variable to either be storedStats, or a default startingStats.
+  // --- --- --- ---
+  let startingUserStats;
+  const storedUserStats = JSON.parse(localStorage.getItem("userStats"));
+  // If there are stored stats, we'll use those, and pass them into userStats. If not, we'll initiate default ones to begin.
+  if (storedUserStats) {
+    startingUserStats = storedUserStats;
+  } else {
+    startingUserStats = {
+      harriotsNumber: 0,
+      harriotsPerSecond: 0,
+      greenPeppers: 0,
+      redTomatahs: 0,
+      palletKnives: 0,
+      quickieBag: 0,
+      extraAinsleys: ["/assets/images/ainsley-yeah-boi-cartoon-square.png"],
+      hasFiveHarriots: false,
+      showMainGame: false
+    };
+  }
+
+  const [userStats, setUserStats] = useState(startingUserStats);
+
   // --- --- --- ---
   // Main Variables
   // --- --- --- ---
   // harriotsNumber is our main 'Total Cookies'
-  const [harriotsNumber, setHarriotsNumber] = useState(0);
+  const [harriotsNumber, setHarriotsNumber] = useState(
+    startingUserStats.harriotsNumber
+  );
   //  harriotsPerSecond the number of Harriots the user gets per second
-  const [harriotsPerSecond, setHarriotsPerSecond] = useState(1);
-  const [extraAinsleys, setExtraAinsleys] = useState([]);
+  const [harriotsPerSecond, setHarriotsPerSecond] = useState(
+    startingUserStats.harriotsPerSecond
+  );
+  // extraAinsleys is a weird implementation (of an array, of strings, of image pathways) to allow the user to 'buy' extra spinning images for their background
+  // I'm not proud of it but it works.
+  const [extraAinsleys, setExtraAinsleys] = useState(
+    startingUserStats.extraAinsleys
+  );
 
   // --- --- --- ---
-  // Upgrades
+  // Upgrades object, available to the user
   // --- --- --- ---
-  const [userStats, setUserStats] = useState({
-    harriotsNumber: 0,
-    harriotsPerSecond: 0,
-    greenPeppers: 0,
-    redTomatahs: 0,
-    palletKnives: 0,
-    quickieBag: 0,
-    extraAinsleys: 0,
-    hasFiveHarriots: false
-  });
-
   const upgrades = [
     {
       id: 1,
@@ -96,31 +117,23 @@ export default function App() {
   // --- --- --- ---
   // This timer happens every second, and adds the 'harriotsPerSecond' to the 'harriotsNumber'.
   // --- --- --- ---
-
   useEffect(() => {
-    // console.log("effect has been called");
-    // setHarriotsNumber((currentHarriots) => currentHarriots + harriotsPerSecond);
-    // console.log("TimerClean component useEffect callback");
     const interval = setInterval(() => {
-      // console.log("interval has been called");
       setHarriotsNumber(
         (currentHarriots) => currentHarriots + harriotsPerSecond
       );
       updateUserStorage();
-
-      // console.log(harriotsPerSecond);
     }, 1000);
 
     return () => {
-      // console.log("TimerClean component useEffect cleanup");
       clearInterval(interval);
     };
   }, [harriotsPerSecond, updateUserStorage]);
-
   // -- Timer ends here --
 
   // --- --- --- ---
-  // Main 'Cookie' button. When you click Ainsley, you get One Harriot
+  // Main 'Cookie' button. When you click the Big Ainsley, you get One Harriot.
+  // Maybe the first time in history that's ever been written.
   // --- --- --- ---
   function increaseAinsleys() {
     setHarriotsNumber((currentCount) => {
@@ -132,69 +145,109 @@ export default function App() {
       }
     }
   }
+
   // --- --- --- ---
-  // Main Upgrade function. Takes the numbers passed in from the button. Also updates the userStats
+  // Main Upgrade function. Takes the properties passed in from the button. Also updates the userStats.
   // --- --- --- ---
   function increaseHPS(string, upgradeCost, upgradeValue, audio, upgradeName) {
-    console.log(string, upgradeCost, upgradeValue);
-    console.log(upgradeName);
-
+    // Can they afford it?
     if (harriotsNumber > upgradeCost - 1) {
+      // First increase the amount in the userStats object:
       setUserStats((prevUserStats) => ({
         ...prevUserStats,
         [upgradeName]: prevUserStats[upgradeName] + 1
       }));
+      // Then subtract some Harriots as payment:
       setHarriotsNumber((currentNumber) => currentNumber - upgradeCost);
+      //  Then increase the Harriots per second with the value of the upgrade:
       setHarriotsPerSecond(harriotsPerSecond + upgradeValue);
+      // And play some 'Ye boi' goodness, as per the object.
       audio.play();
     }
   }
 
   // --- --- --- ---
-  //   This is where we use a toggle to start the game
+  //   This is where we use a toggle to start the game, and check if the user has already started
   // --- --- --- ---
-  const [showMainGame, setShowMainGame] = useState(false);
 
   function handleShowMainGame() {
-    showMainGame
-      ? (stopCooking.play(), setHarriotsNumber(harriotsNumber))
-      : (readyCook.play(),
-        setHarriotsNumber(0),
-        setHarriotsPerSecond(0),
-        setExtraAinsleys([]));
-    setShowMainGame(!showMainGame);
+    // Lets us reset the user stats
+    const newGameUserStats = {
+      harriotsNumber: 0,
+      harriotsPerSecond: 0,
+      greenPeppers: 0,
+      redTomatahs: 0,
+      palletKnives: 0,
+      quickieBag: 0,
+      extraAinsleys: ["/assets/images/ainsley-yeah-boi-cartoon-square.png"],
+      hasFiveHarriots: false,
+      showMainGame: false
+    };
+    // Does a check to see if the user has started or not
+    if (userStats.showMainGame) {
+      console.log(userStats);
+      setUserStats((prevUserStats) => ({
+        ...prevUserStats,
+        showMainGame: !prevUserStats.showMainGame
+      }));
+      stopCooking.play();
+      setUserStats(newGameUserStats);
+      setHarriotsNumber(0);
+      setHarriotsPerSecond(0);
+      setExtraAinsleys([]);
+      console.log(userStats);
+    } else {
+      readyCook.play();
+      setUserStats((prevUserStats) => ({
+        ...prevUserStats,
+        showMainGame: !prevUserStats.showMainGame
+      }));
+
+      setExtraAinsleys((prevExtraAinsleys) => [
+        ...prevExtraAinsleys,
+        "/assets/images/ainsley-yeah-boi-cartoon-square.png"
+      ]);
+    }
   }
 
   // --- --- --- ---
   //   This puts extra small spinning Ainsleys into an array, to be displayed on the page.
   // --- --- --- ---
   function addExtraAinsleys() {
-    // If the user can afford the cosmetic, spinning Ainsley Disc:
+    // If the user can afford the cosmetic spinning Ainsley Disc:
     if (harriotsNumber > 99) {
-      const yeBoi = new Audio("/assets/sounds/ainsley-ye-boi.mp3");
       yeBoi.play();
       // Take some Harriots as cost:
       setHarriotsNumber((currentHarriots) => currentHarriots - 100);
-      // And add another image source to the array. Bit yucky but it works
-      setExtraAinsleys([
-        ...extraAinsleys,
+      // And add another image source to the array, and user storage. Bit yucky but it works:
+      setExtraAinsleys((prevExtraAinsleys) => [
+        ...prevExtraAinsleys,
         "/assets/images/ainsley-yeah-boi-cartoon-square.png"
       ]);
       setUserStats((prevUserStats) => ({
         ...prevUserStats,
-        extraAinsleys: prevUserStats.extraAinsleys + 1
+        extraAinsleys: [
+          ...prevUserStats.extraAinsleys,
+          "/assets/images/ainsley-yeah-boi-cartoon-square.png"
+        ]
       }));
     }
   }
 
   function updateUserStorage() {
-    const beautiful = new Audio("/assets/sounds/ainsley-thats-beautiful.mp3");
     if (harriotsNumber > 30 && harriotsNumber % 150 === 0) {
       beautiful.play();
     }
-    userStats.harriotsNumber = harriotsNumber;
-    userStats.harriotsPerSecond = harriotsPerSecond;
-    localStorage.setItem("userStats", JSON.stringify(userStats));
+    setUserStats((prevUserStats) => {
+      const updatedUserStats = {
+        ...prevUserStats,
+        harriotsNumber: harriotsNumber,
+        harriotsPerSecond: harriotsPerSecond
+      };
+      localStorage.setItem("userStats", JSON.stringify(updatedUserStats));
+
+      return updatedUserStats;
+    });
   }
 
   // --- --- --- ---
@@ -203,12 +256,13 @@ export default function App() {
   return (
     <>
       <div className="overlay"></div>
-      {!showMainGame ? (
+      {!userStats.showMainGame ? (
         <NewGameDisplay onClick={handleShowMainGame} />
       ) : (
         <div className="main-app flex">
           <ExtraAinsleySection extraAinsleys={extraAinsleys} />
           <div className="audio-section">
+            {/* I got the cool, I got the cool shoe shine. */}
             <audio
               id="gorillaz-player"
               src="/assets/sounds/gorillaz-192000-volume.mp3"

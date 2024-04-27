@@ -128,12 +128,14 @@ audio {
   font-size: 2em;
   font-weight: 800;
   color: tomato;
+  text-shadow: 2px 0px 5px black;
 }
 
 .harriots-per-second {
   font-size: 1.5em;
   font-weight: 600;
   color: tomato;
+  text-shadow: 2px 0px 5px black;
 }
 
 .big-ainsley-button {
@@ -374,6 +376,9 @@ audio {
 }
 
 @media (min-width: 601px) and (max-width: 1000px) {
+  .new-game-display {
+    width: 50%;
+  }
   .main-app h1 {
     font-size: 2.5em;
   }
@@ -389,6 +394,10 @@ audio {
 }
 
 @media (min-width: 1001px) {
+  .new-game-display {
+    width: 30%;
+  }
+
   .main-app h1 {
     font-size: 2.75em;
   }
