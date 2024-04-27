@@ -38,7 +38,9 @@ export default function App() {
     greenPeppers: 0,
     redTomatahs: 0,
     palletKnives: 0,
-    extraAinsleys: 0
+    quickieBag: 0,
+    extraAinsleys: 0,
+    hasFiveHarriots: false
   });
 
   const upgrades = [
@@ -55,7 +57,7 @@ export default function App() {
       id: 2,
       name: "Red Tomatah",
       upgradeName: "redTomatahs",
-      cost: 100,
+      cost: 50,
       increaseValue: 10,
       imageSource: "/assets/images/red-tomato.png",
       audio: new Audio("/assets/sounds/ainsley-red-tomatah.mp3")
@@ -64,10 +66,19 @@ export default function App() {
       id: 3,
       name: "Pallet Knife",
       upgradeName: "palletKnives",
-      cost: 300,
+      cost: 100,
       increaseValue: 10,
       imageSource: "/assets/images/pallet-knife.png",
       audio: new Audio("/assets/sounds/ainsley-pallet-knife-nice-and-hot.mp3")
+    },
+    {
+      id: 4,
+      name: "Quickie Bag",
+      upgradeName: "quickieBag",
+      cost: 500,
+      increaseValue: 50,
+      imageSource: "/assets/images/quickie-bag.png",
+      audio: new Audio("/assets/sounds/ainsley-quickie-bag.mp3")
     },
     {
       id: 5,
@@ -96,6 +107,7 @@ export default function App() {
         (currentHarriots) => currentHarriots + harriotsPerSecond
       );
       updateUserStorage();
+
       // console.log(harriotsPerSecond);
     }, 1000);
 
@@ -112,8 +124,13 @@ export default function App() {
   // --- --- --- ---
   function increaseAinsleys() {
     setHarriotsNumber((currentCount) => {
-      return currentCount + 10;
+      return currentCount + 1;
     });
+    if (!userStats.hasFiveHarriots) {
+      if (harriotsNumber > 3) {
+        userStats.hasFiveHarriots = true;
+      }
+    }
   }
   // --- --- --- ---
   // Main Upgrade function. Takes the numbers passed in from the button. Also updates the userStats
@@ -171,6 +188,10 @@ export default function App() {
   }
 
   function updateUserStorage() {
+    const beautiful = new Audio("/assets/sounds/ainsley-thats-beautiful.mp3");
+    if (harriotsNumber > 30 && harriotsNumber % 150 === 0) {
+      beautiful.play();
+    }
     userStats.harriotsNumber = harriotsNumber;
     userStats.harriotsPerSecond = harriotsPerSecond;
     localStorage.setItem("userStats", JSON.stringify(userStats));
@@ -201,14 +222,27 @@ export default function App() {
             harriotsPerSecond={harriotsPerSecond}
             increaseAinsleys={increaseAinsleys}
           />
-          <p>Ħarriots Per Second : {harriotsPerSecond}</p>
-
-          <UpgradeSection
-            upgrades={upgrades}
-            increaseHPS={increaseHPS}
-            userStats={userStats}
-          />
-          <button onClick={handleShowMainGame}>Reset your game</button>
+          <p>
+            <span className="harriots-per-second">{harriotsPerSecond}</span>{" "}
+            Ħarriots Per Second
+          </p>
+          {userStats.hasFiveHarriots ? (
+            <>
+              <UpgradeSection
+                upgrades={upgrades}
+                increaseHPS={increaseHPS}
+                userStats={userStats}
+              />
+            </>
+          ) : (
+            <>
+              <h2 className="click-his-face">Click his face</h2>
+              <p>...and play some tunes at the top.</p>
+            </>
+          )}
+          <button className="reset-button" onClick={handleShowMainGame}>
+            Reset your game
+          </button>
           <footer>
             <a href="https://www.linkedin.com/in/frankie-shrieves/">Frankie</a>,{" "}
             <a href="https://github.com/frank-ventures/teched-week06-project">
