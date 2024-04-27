@@ -96,6 +96,14 @@
   gap: 0.5em;
 }
 
+.click-his-face {
+  font-size: 3em;
+}
+
+audio {
+  border-radius: 1.5em;
+}
+
 .audio-section {
   margin-bottom: 1em;
   font-style: italic;
@@ -115,7 +123,15 @@
 }
 
 .harriots-number {
+  font-size: 2em;
   font-weight: 800;
+  color: tomato;
+}
+
+.harriots-per-second {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: tomato;
 }
 
 .big-ainsley-button {
