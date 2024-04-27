@@ -203,10 +203,10 @@ export default function App() {
         showMainGame: !prevUserStats.showMainGame
       }));
 
-      setExtraAinsleys((prevExtraAinsleys) => [
-        ...prevExtraAinsleys,
-        "/assets/images/ainsley-yeah-boi-cartoon-square.png"
-      ]);
+      // setExtraAinsleys((prevExtraAinsleys) => [
+      //   ...prevExtraAinsleys,
+      //   "/assets/images/ainsley-yeah-boi-cartoon-square.png"
+      // ]);
     }
   }
 
