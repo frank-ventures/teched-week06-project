@@ -272,7 +272,6 @@ audio {
   animation-name: float-animation;
   animation-duration: 2s;
   animation-timing-function: ease-out;
-  /* animation: logo-spin infinite 5s linear; */
 
   margin: 0;
   padding: 0;
