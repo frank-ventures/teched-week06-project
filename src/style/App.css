@@ -265,6 +265,35 @@ audio {
   }
 }
 
+.float-animation {
+  position: fixed;
+  z-index: 9;
+  pointer-events: none;
+  animation-name: float-animation;
+  animation-duration: 2s;
+  animation-timing-function: ease-out;
+  /* animation: logo-spin infinite 5s linear; */
+
+  margin: 0;
+  padding: 0;
+
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+
+  width: 200px;
+  height: 200px;
+}
+@keyframes float-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -300px);
+    opacity: 0;
+  }
+}
+
 /* --- --- --- --- */
 /* For the Extra Ainsleys Scroll Effect */
 /* --- --- --- --- */
