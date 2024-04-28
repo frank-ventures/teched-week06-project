@@ -4,6 +4,7 @@ export default function UpgradeSection({ upgrades, increaseHPS, userStats }) {
   return (
     <section className="upgrade-section">
       <h3>Give it a stir...</h3>
+      {/* The whole "list item" box is clickable */}
       <ul className="flex">
         {upgrades.map((upgrade) => {
           return (
@@ -23,7 +24,11 @@ export default function UpgradeSection({ upgrades, increaseHPS, userStats }) {
                       )
               }
             >
-              <img src={upgrade.imageSource} className="upgrade-icon" />
+              <img
+                src={upgrade.imageSource}
+                alt={`${upgrade.name} upgrade`}
+                className="upgrade-icon"
+              />
               <p className="upgrade-title">{upgrade.name}</p>
 
               <div className="upgrade-details-box flex">
