@@ -25,7 +25,6 @@ export default function BigAinsleyButton({ increaseAinsleys }) {
       className="big-ainsley-button"
       src="/assets/images/ainsley-yeah-boi-cartoon-square.png"
       alt="Main game clicker button of Ainsley Harriots face"
-      // onClick={increaseAinsleys}
       onClick={clickAnimation}
     ></img>
   );

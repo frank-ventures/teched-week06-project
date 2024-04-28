@@ -276,13 +276,6 @@ export default function App() {
             harriotsPerSecond={harriotsPerSecond}
             increaseAinsleys={increaseAinsleys}
           />
-          {upgrades.map((upgrade) => {
-            return (
-              <div key={upgrade.name + upgrade.id}>
-                <p>{upgrade.name}</p>
-              </div>
-            );
-          })}
           <p>
             <span className="harriots-per-second">{harriotsPerSecond}</span>{" "}
             Ħarriots Per Second
