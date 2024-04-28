@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function TimsCookies() {
+export default function DarrensCookies() {
   // what if I want to do local storage? STRETCH GOAL
   const [cookies, setCookies] = useState(0);
   const [cps, setCps] = useState(1); // CPS = Cookies Per Second
